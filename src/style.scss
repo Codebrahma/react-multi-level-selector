@@ -1,0 +1,256 @@
+.container {
+  $greyOne: #F0F0F0;
+  $greyTwo: #555;
+  $greyThree: #eee;
+  $greyFour: #ccc;
+  $black: #000000;
+  $placeholder: rgb(129, 129, 129);
+  $white: #FFFFFF;
+  $blue: #2196F3;
+  $red: #FF0000;
+  box-sizing: border-box;
+
+  .close {
+    display: none;
+  }
+
+  .open {
+    display: block;
+  }
+
+  .multiselect-container {
+    display: flex;
+    flex-direction: row;
+    border: 1px solid $greyFour;
+    max-width: 100%;
+
+    .multi-select {
+      width: 100%;
+      display: flex;
+      align-items: center;
+      flex-wrap: wrap;
+
+      .placeholder {
+        font-size: 16px;
+        color: $placeholder;
+        margin-left: 10px;
+      }
+
+      .selected {
+        display: flex;
+        flex-direction: row;
+        justify-content: center;
+        align-items: center;
+        margin: 5px;
+        padding: 5px 10px;
+        border-radius: 20px;
+        font-size: 14px;
+        background-color: #F0F0F0;
+        min-width: max-content;
+        flex-wrap: nowrap;
+
+        div {
+          display: inline-block;
+        }
+
+        .groupHead {
+          color: $black;
+          font-size: 14px;
+          font-weight: bold;
+        }
+
+        .or {
+          color: $greyTwo;
+          display: inline;
+        }
+
+        .close {
+          color: $greyFour;
+          font-size: 16px;
+          margin-left: 3px;
+          cursor: pointer;
+
+          &:hover {
+            color: $red;
+          }
+        }
+      }
+    }
+
+    .select-button {
+      margin: 8px;
+      min-width: 25px;
+      height: 25px;
+      display: flex;
+      align-items: center;
+
+      &:hover {
+        .select-arrow-down {
+          border-top: 10px solid $greyTwo;
+        }
+
+        .select-arrow-up {
+          border-bottom: 10px solid $greyTwo;
+        }
+      }
+
+      .select-arrow-down {
+        width: 0;
+        height: 0;
+        border-left: 10px solid transparent;
+        border-right: 10px solid transparent;
+        border-top: 10px solid $greyFour;
+
+        &:hover {
+          border-top: 10px solid $greyTwo;
+        }
+      }
+
+      .select-arrow-up {
+        width: 0;
+        height: 0;
+        border-left: 10px solid transparent;
+        border-right: 10px solid transparent;
+        border-bottom: 10px solid $greyFour;
+
+        &:hover {
+          border-bottom: 10px solid $greyTwo;
+        }
+      }
+
+    }
+  }
+
+  .dropDown-content {
+    position: absolute;
+    background-color: $white;
+    margin-top: 5px;
+    border-radius: 5px;
+    box-shadow: 0px 0px 5px $greyFour;
+    min-width: 200px;
+
+    .main-menu {
+      position: relative;
+      margin: 0;
+      padding: 0;
+
+      .option {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 10px 8px 10px 18px;
+        position: relative;
+
+        .option-label {
+          max-width: 180px;
+          word-break: break-all;
+          padding-right: 10px;
+        }
+
+        .sub-menu {
+          background-color: $white;
+          box-shadow: 0px 0px 3px $greyFour;
+          border-radius: 5px;
+          position: absolute;
+          width: max-content;
+          top: 0;
+          right: 0;
+          z-index: 1;
+          transform: translate(100%, 0);
+          display: none;
+
+          .option-container {
+            display: block;
+            position: relative;
+            padding: 10px 40px;
+            cursor: pointer;
+            -webkit-user-select: none;
+            -moz-user-select: none;
+            -ms-user-select: none;
+            user-select: none;
+
+            &:hover {
+              background-color: $greyOne;
+            }
+
+            input {
+              position: absolute;
+              opacity: 0;
+              cursor: pointer;
+              height: 0;
+              width: 0;
+
+              &:checked~.checkmark {
+                background-color: $blue;
+              }
+
+              &:checked~.checkmark:after {
+                display: block;
+              }
+            }
+
+            .checkmark {
+              position: absolute;
+              top: 10px;
+              left: 15px;
+              height: 15px;
+              width: 15px;
+              background-color: $greyThree;
+
+              &:after {
+                content: "";
+                position: absolute;
+                display: none;
+              }
+
+              &:after {
+                left: 5px;
+                top: 1px;
+                width: 3px;
+                height: 8px;
+                border: solid $white;
+                border-width: 0 3px 3px 0;
+                -webkit-transform: rotate(45deg);
+                -ms-transform: rotate(45deg);
+                transform: rotate(45deg);
+              }
+            }
+
+            &:hover input~.checkmark {
+              background-color: $greyFour;
+            }
+
+            &:hover input:checked~.checkmark {
+              background-color: $blue;
+            }
+          }
+        }
+
+        &:hover {
+          background-color: $greyOne;
+          cursor: pointer;
+
+          .sub-menu {
+            display: block;
+          }
+
+          .select-right {
+            border-left: 7px solid $greyTwo;
+          }
+        }
+
+        .select-right {
+          width: 0;
+          height: 0;
+          border-top: 7px solid transparent;
+          border-bottom: 7px solid transparent;
+          border-left: 7px solid $greyFour;
+
+          &:hover {
+            border-left: 7px solid $greyTwo;
+          }
+        }
+      }
+    }
+  }
+}
