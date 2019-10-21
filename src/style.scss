@@ -8,8 +8,10 @@
   $white: #FFFFFF;
   $blue: #2196F3;
   $red: #FF0000;
+
   box-sizing: border-box;
   width: 100%;
+  background-color: $white;
 
   .close {
     display: none;
