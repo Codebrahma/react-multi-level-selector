@@ -1,4 +1,4 @@
-.container {
+.multi-level-selector-container {
   $greyOne: #F0F0F0;
   $greyTwo: #555;
   $greyThree: #eee;
@@ -9,6 +9,7 @@
   $blue: #2196F3;
   $red: #FF0000;
   box-sizing: border-box;
+  width: 100%;
 
   .close {
     display: none;
@@ -18,7 +19,7 @@
     display: block;
   }
 
-  .multiselect-container {
+  .multi-select-container {
     display: flex;
     flex-direction: row;
     border: 1px solid $greyFour;

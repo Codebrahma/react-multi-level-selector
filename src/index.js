@@ -155,8 +155,8 @@ class MultiSelect extends React.Component {
   render() {
     const { values, showMenu } = this.state;
     return (
-      <div className="container">
-        <div className="multiselect-container">
+      <div className="multi-level-selector-container">
+        <div className="multi-select-container">
           <div className="multi-select">
             {!values.length && this.renderPlaceholder()}
             {this.renderOptionsSelected(values)}
