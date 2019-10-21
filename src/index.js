@@ -20,7 +20,7 @@ class MultiSelect extends React.Component {
         value,
         label: name,
       };
-      if (!values.some((item) => item.value === data.value)) {
+      if (!values.some(item => item.value === data.value)) {
         this.setState({ values: [...values, { ...data, options: [selectedOption] }] },
           () => this.onOptionsChange());
       } else {
@@ -33,14 +33,14 @@ class MultiSelect extends React.Component {
         this.setState({ values: selectedOptions }, () => this.onOptionsChange());
       }
     } else {
-      const uncheckedOption = values.map((item) => (
-        { ...item, options: item.options.filter((i) => i.value !== value) }
-      )).filter((filtering) => filtering.options.length !== 0);
+      const uncheckedOption = values.map(item => (
+        { ...item, options: item.options.filter(i => i.value !== value) }
+      )).filter(filtering => filtering.options.length !== 0);
       this.setState({ values: uncheckedOption }, () => this.onOptionsChange());
     }
   }
 
-  renderOptionsSelected = (values) => (
+  renderOptionsSelected = values => (
     values.map((item, i) => (
       <div key={i} className="selected">
         <div className="groupHead">
@@ -48,7 +48,7 @@ class MultiSelect extends React.Component {
           {':'}
           &nbsp;
         </div>
-        {item.options.map((d, index) => (
+        {item.options.map((data, index) => (
           <div key={index}>
             {(item.options.length >= 2 && index === item.options.length - 1)
               ? (
@@ -56,11 +56,11 @@ class MultiSelect extends React.Component {
                   <span className="or">OR</span>
                   <span>
                     &nbsp;
-                    {d.label}
+                    {data.label}
                   </span>
                 </span>
               )
-              : (item.options.length >= 2 && index !== 0) ? `, ${d.label}` : d.label}
+              : (item.options.length >= 2 && index !== 0) ? `, ${data.label}` : data.label}
             &nbsp;
           </div>
         ))}
@@ -82,7 +82,7 @@ class MultiSelect extends React.Component {
 
   removeSelectedGroup = ({ value }) => {
     const { values } = this.state;
-    this.setState({ values: values.filter((data) => data.value !== value) });
+    this.setState({ values: values.filter(data => data.value !== value) });
   }
 
   handleClickOutside = () => {
@@ -132,11 +132,11 @@ class MultiSelect extends React.Component {
                           type="checkbox"
                           value={subItem.value}
                           checked={
-                            values.some((value) => value.value === item.value
-                              && value.options.some((data) => data.value === subItem.value))
+                            values.some(value => value.value === item.value
+                              && value.options.some(data => data.value === subItem.value))
                           }
                           name={subItem.label}
-                          onChange={(e) => this.selectOption({ value: item.value, label: item.label }, e)}
+                          onChange={e => this.selectOption({ value: item.value, label: item.label }, e)}
                         />
                         <span className="checkmark" />
                       </div>
