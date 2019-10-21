@@ -29,6 +29,7 @@
       display: flex;
       align-items: center;
       flex-wrap: wrap;
+      overflow-x: auto;
 
       .placeholder {
         font-size: 16px;
