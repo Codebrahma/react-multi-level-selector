@@ -160,6 +160,13 @@
           transform: translate(100%, 0);
           display: none;
 
+          .option-header {
+            font-size: 14px;
+            padding: 10px 15px;
+            color: $placeholder;
+            text-transform: uppercase;
+          }
+
           .option-container {
             display: block;
             position: relative;
@@ -194,9 +201,11 @@
               position: absolute;
               top: 10px;
               left: 15px;
-              height: 15px;
-              width: 15px;
-              background-color: $greyThree;
+              height: 14px;
+              width: 14px;
+              background-color: $white;
+              border-radius: 3px;
+              border: 1px solid $greyFour;
 
               &:after {
                 content: "";
@@ -206,11 +215,11 @@
 
               &:after {
                 left: 5px;
-                top: 1px;
-                width: 3px;
-                height: 8px;
+                top: 2px;
+                width: 2px;
+                height: 7px;
                 border: solid $white;
-                border-width: 0 3px 3px 0;
+                border-width: 0 2px 2px 0;
                 -webkit-transform: rotate(45deg);
                 -ms-transform: rotate(45deg);
                 transform: rotate(45deg);
@@ -218,7 +227,7 @@
             }
 
             &:hover input~.checkmark {
-              background-color: $greyFour;
+              background-color: $white;
             }
 
             &:hover input:checked~.checkmark {

@@ -124,6 +124,7 @@ class MultiSelect extends React.Component {
               <>
                 <div className="select-right" />
                 <div className="sub-menu">
+                  <div className="option-header">{item.label}</div>
                   {item.options.map((subItem, index) => (
                     <label key={index}>
                       <div className="option-container">
