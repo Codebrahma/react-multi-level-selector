@@ -19,17 +19,18 @@ import React from 'react';
 import MultiSelect from 'react-multi-level-selector';
 
 const options = [
-  { value: 'department', label: 'Department',
+  { value: 'fruits', label: 'Fruits',
     options: [
-      { value: 'customer success', label: 'Customer success' },
-      { value: 'marketing', label: 'Marketing' },
+       { value: 'apple', label: 'Apple' },
+       { value: 'blackberry', label: 'Blackberry' },
+       { value: 'cherry', label: 'Cherry' },
     ],
   },
-  { value: 'office location', label: 'Office Location',
+  { value: 'city', label: 'city',
     options: [
+      { value: 'dublin', label: 'Dublin' },
       { value: 'new york', label: 'New York' },
       { value: 'san fransis', label: 'San Fransis' },
-      { value: 'dublin', label: 'Dublin' },
     ],
   },
 
