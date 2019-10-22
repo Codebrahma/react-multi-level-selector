@@ -11,38 +11,45 @@
 
   box-sizing: border-box;
   width: 100%;
-  background-color: $white;
 
-  .close {
+  .menu-close {
     display: none;
   }
 
-  .open {
+  .menu-open {
     display: block;
   }
 
-  .multi-select-container {
+  .active {
+    box-shadow: 0px 0px 0px 1px $blue;
+  }
+
+  .inactive {
+    box-shadow: none;
+  }
+
+  .multi-selector-container {
     display: flex;
     flex-direction: row;
     border: 1px solid $greyFour;
     max-width: 100%;
+    background-color: $white;
 
-    .multi-select {
+    .multi-selector {
       width: 100%;
       display: flex;
       align-items: center;
       flex-wrap: wrap;
       overflow-x: auto;
 
-      .placeholder {
+      .multi-selector-placeholder {
         font-size: 16px;
         color: $placeholder;
         margin-left: 10px;
       }
 
-      .selected {
+      .options-selected-container {
         display: flex;
-        flex-direction: row;
         justify-content: center;
         align-items: center;
         margin: 5px;
@@ -53,22 +60,22 @@
         min-width: max-content;
         flex-wrap: nowrap;
 
-        div {
+        .options-value {
           display: inline-block;
         }
 
-        .groupHead {
+        .options-group {
           color: $black;
           font-size: 14px;
           font-weight: bold;
         }
 
-        .or {
+        .or-separator {
           color: $greyTwo;
           display: inline;
         }
 
-        .close {
+        .remove-group {
           color: $greyFour;
           font-size: 16px;
           margin-left: 3px;
@@ -81,24 +88,24 @@
       }
     }
 
-    .select-button {
+    .multi-selector-button {
+      display: flex;
+      align-items: center;
       margin: 8px;
       min-width: 25px;
       height: 25px;
-      display: flex;
-      align-items: center;
 
       &:hover {
-        .select-arrow-down {
+        .arrow-down {
           border-top: 10px solid $greyTwo;
         }
 
-        .select-arrow-up {
+        .arrow-up {
           border-bottom: 10px solid $greyTwo;
         }
       }
 
-      .select-arrow-down {
+      .arrow-down {
         width: 0;
         height: 0;
         border-left: 10px solid transparent;
@@ -110,48 +117,44 @@
         }
       }
 
-      .select-arrow-up {
+      .arrow-up {
         width: 0;
         height: 0;
         border-left: 10px solid transparent;
         border-right: 10px solid transparent;
-        border-bottom: 10px solid $greyFour;
-
-        &:hover {
-          border-bottom: 10px solid $greyTwo;
-        }
+        border-bottom: 10px solid $greyTwo;
       }
-
     }
   }
 
-  .dropDown-content {
+  .multi-level-options-container {
     position: absolute;
     background-color: $white;
     margin-top: 5px;
     border-radius: 5px;
+    z-index: 1;
     box-shadow: 0px 0px 5px $greyFour;
     min-width: 200px;
 
-    .main-menu {
+    .options-main-menu {
       position: relative;
       margin: 0;
       padding: 0;
 
-      .option {
+      .options-container {
         display: flex;
         align-items: center;
         justify-content: space-between;
         padding: 10px 8px 10px 18px;
         position: relative;
 
-        .option-label {
+        .options-label {
           max-width: 180px;
           word-break: break-all;
           padding-right: 10px;
         }
 
-        .sub-menu {
+        .options-sub-menu-container {
           background-color: $white;
           box-shadow: 0px 0px 3px $greyFour;
           border-radius: 5px;
@@ -163,22 +166,18 @@
           transform: translate(100%, 0);
           display: none;
 
-          .option-header {
+          .options-sub-menu-header {
             font-size: 14px;
             padding: 10px 15px;
             color: $placeholder;
             text-transform: uppercase;
           }
 
-          .option-container {
-            display: block;
-            position: relative;
-            padding: 10px 40px;
+          .options-sub-menu {
+            display: flex;
+            align-items: center;
+            padding: 10px 25px 10px 15px;
             cursor: pointer;
-            -webkit-user-select: none;
-            -moz-user-select: none;
-            -ms-user-select: none;
-            user-select: none;
 
             &:hover {
               background-color: $greyOne;
@@ -191,47 +190,60 @@
               height: 0;
               width: 0;
 
-              &:checked~.checkmark {
-                background-color: $blue;
+              &:checked~.checkbox {
+                .checkmark {
+                  background-color: $blue;
+                }
               }
 
-              &:checked~.checkmark:after {
-                display: block;
+              &:checked~.checkbox {
+                .checkmark:after {
+                  display: block;
+                }
               }
             }
 
-            .checkmark {
-              position: absolute;
-              top: 10px;
-              left: 15px;
+            .checkbox {
+              position: relative;
               height: 14px;
               width: 14px;
-              background-color: $white;
-              border-radius: 3px;
-              border: 1px solid $greyFour;
+              margin-right: 10px;
 
-              &:after {
-                content: "";
+              .checkmark {
                 position: absolute;
-                display: none;
-                left: 5px;
-                top: 1.5px;
-                width: 2px;
-                height: 7px;
-                border: solid $white;
-                border-width: 0 2px 2px 0;
-                -webkit-transform: rotate(45deg);
-                -ms-transform: rotate(45deg);
-                transform: rotate(45deg);
+                height: 14px;
+                width: 14px;
+                background-color: $white;
+                border-radius: 3px;
+                border: 1px solid $greyFour;
+
+                &:after {
+                  content: "";
+                  position: absolute;
+                  display: none;
+                  left: 5px;
+                  top: 1.5px;
+                  width: 2px;
+                  height: 7px;
+                  border: solid $white;
+                  border-width: 0 2px 2px 0;
+                  -webkit-transform: rotate(45deg);
+                  -ms-transform: rotate(45deg);
+                  transform: rotate(45deg);
+                }
               }
             }
 
-            &:hover input~.checkmark {
-              background-color: $white;
+            &:hover input~.checkbox {
+              .checkmark {
+                background-color: $white;
+              }
             }
 
-            &:hover input:checked~.checkmark {
-              background-color: $blue;
+            &:hover input:checked~.checkbox {
+              .checkmark {
+                background-color: $blue;
+              }
             }
           }
         }
@@ -240,16 +252,16 @@
           background-color: $greyOne;
           cursor: pointer;
 
-          .sub-menu {
+          .options-sub-menu-container {
             display: block;
           }
 
-          .select-right {
+          .arrow-right {
             border-left: 7px solid $greyTwo;
           }
         }
 
-        .select-right {
+        .arrow-right {
           width: 0;
           height: 0;
           border-top: 7px solid transparent;

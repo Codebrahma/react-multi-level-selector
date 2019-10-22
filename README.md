@@ -55,3 +55,4 @@ export default App;
 | **`options`**     | `{Array}`    | Specify the options the user can select from.  |
 | **`placeholder`** | `{String}`   | The text displayed when no option is selected. |
 | **`onChange`**    | `{function}` | Subscribe to change events.                    |
+| **`className`**   | `{String}`   | This prop is passed down to the wrapper div    |
