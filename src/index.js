@@ -86,7 +86,8 @@ class MultiSelect extends React.Component {
   }
 
   handleClickOutside = () => {
-    this.state.showMenu && this.setState({ showMenu: false });
+    const { showMenu } = this.state;
+    return showMenu && this.setState({ showMenu: false });
   }
 
   toggleMenu = () => {

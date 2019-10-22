@@ -214,11 +214,8 @@
                 content: "";
                 position: absolute;
                 display: none;
-              }
-
-              &:after {
                 left: 5px;
-                top: 2px;
+                top: 1.5px;
                 width: 2px;
                 height: 7px;
                 border: solid $white;
