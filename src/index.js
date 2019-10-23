@@ -105,7 +105,7 @@ class MultiLevelSelect extends React.Component {
     const { className } = this.props;
     return (
       <div className="multi-selector-button" onClick={this.toggleMenu}>
-        <div className={isMenuOpen ? `arrow-up ${className && `${className}-arrow-up`}` : `arrow-down ${className && `${className}-arrow-up`}`} />
+        <div className={isMenuOpen ? `arrow-up ${className && `${className}-arrow-up`}` : `arrow-down ${className && `${className}-arrow-down`}`} />
       </div>
     );
   }
