@@ -114,7 +114,7 @@ class MultiLevelSelect extends React.Component {
     const { placeholder, className } = this.props;
     return (
       <div className={`multi-selector-placeholder ${className && `${className}-multi-selector-placeholder`}`}>
-        {placeholder ? `${placeholder}` : 'Filter by custom attributes'}
+        {placeholder || 'Filter by custom attributes'}
       </div>
     );
   }
