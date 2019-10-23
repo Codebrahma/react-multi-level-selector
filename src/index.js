@@ -28,6 +28,7 @@ class MultiLevelSelect extends React.Component {
         value,
         label: name,
       };
+
       if (values.some(item => item.value === data.value)) {
         const selectedOptions = values.map((item) => {
           if (item.value === data.value) {
@@ -107,7 +108,7 @@ class MultiLevelSelect extends React.Component {
     this.setState({ isMenuOpen: !isMenuOpen });
   }
 
-  renderButton = () => {
+  renderCaretButton = () => {
     const { isMenuOpen } = this.state;
 
     return (
@@ -122,7 +123,7 @@ class MultiLevelSelect extends React.Component {
 
     return (
       <div className={`multi-selector-placeholder ${this.getClassName('multi-selector-placeholder')}`}>
-        {placeholder || 'Filter by custom attributes'}
+        {placeholder || 'Select'}
       </div>
     );
   }
@@ -188,7 +189,7 @@ class MultiLevelSelect extends React.Component {
             {!values.length && this.renderPlaceholder()}
             {this.renderOptionsSelected(values)}
           </div>
-          {this.renderButton()}
+          {this.renderCaretButton()}
         </div>
         <div className={`multi-level-options-container ${this.getClassName('multi-level-options-container')} ${isMenuOpen ? `menu-open ${this.getClassName('menu-open')}` : `menu-close ${this.getClassName('menu-close')}`}`}>
           {this.renderOptions()}
