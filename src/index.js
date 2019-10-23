@@ -87,7 +87,7 @@ class MultiSelect extends React.Component {
 
   removeSelectedGroup = ({ value }) => {
     const { values } = this.state;
-    this.setState({ values: values.filter(data => data.value !== value) });
+    this.setState({ values: values.filter(data => data.value !== value) }, () => this.onOptionsChange());
   }
 
   handleClickOutside = () => {
