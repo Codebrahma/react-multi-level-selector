@@ -26,7 +26,7 @@ const options = [
        { value: 'cherry', label: 'Cherry' },
     ],
   },
-  { value: 'city', label: 'city',
+  { value: 'city', label: 'City',
     options: [
       { value: 'dublin', label: 'Dublin' },
       { value: 'new york', label: 'New York' },
@@ -50,9 +50,9 @@ export default App;
 
 ## Props
 
-| Name              | Type         | Description                                    |
-| ----------------- | ------------ | ---------------------------------------------- |
-| **`options`**     | `{Array}`    | Specify the options the user can select from.  |
-| **`placeholder`** | `{String}`   | The text displayed when no option is selected. |
-| **`onChange`**    | `{function}` | Subscribe to change events.                    |
-| **`className`**   | `{String}`   | This prop is passed down to the wrapper div    |
+| Name              | Type         | Description                                                             |
+| ----------------- | ------------ | ----------------------------------------------------------------------- |
+| **`options`**     | `{Array}`    | Options for the dropdown. Specify the options for users to select from. |
+| **`placeholder`** | `{String}`   | The text displayed when no option is selected.                          |
+| **`onChange`**    | `{function}` | Subscribe to change events.                                             |
+| **`className`**   | `{String}`   | className to style the selector                                         |

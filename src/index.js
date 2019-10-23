@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import listensToClickOutside from 'react-onclickoutside';
+import suffixedClassName from './suffixedClassName';
 import './style.scss';
 
 class MultiLevelSelect extends React.Component {
@@ -12,18 +13,21 @@ class MultiLevelSelect extends React.Component {
     };
   }
 
+  getClassName = (suffix) => {
+    const { className } = this.props;
+    return suffixedClassName(className, suffix);
+  }
+
   selectOption = (data, event) => {
     const { values } = this.state;
     const { value, name, checked } = event.target;
+
     if (checked) {
       const selectedOption = {
         value,
         label: name,
       };
-      if (!values.some(item => item.value === data.value)) {
-        this.setState({ values: [...values, { ...data, options: [selectedOption] }] },
-          this.onOptionsChange);
-      } else {
+      if (values.some(item => item.value === data.value)) {
         const selectedOptions = values.map((item) => {
           if (item.value === data.value) {
             return { ...item, options: [...item.options, selectedOption] };
@@ -31,6 +35,9 @@ class MultiLevelSelect extends React.Component {
           return item;
         });
         this.setState({ values: selectedOptions }, this.onOptionsChange);
+      } else {
+        this.setState({ values: [...values, { ...data, options: [selectedOption] }] },
+          this.onOptionsChange);
       }
     } else {
       const uncheckedOption = values.map(item => (
@@ -40,25 +47,24 @@ class MultiLevelSelect extends React.Component {
     }
   }
 
-  renderOptionsSelected = (values) => {
-    const { className } = this.props;
-    return values.map((item, i) => (
+  renderOptionsSelected = values => (
+    values.map((item, i) => (
       <div
         key={i}
-        className={`options-selected-container ${className && `${className}-options-selected-container`}`}
+        className={`options-selected-container ${this.getClassName('options-selected-container')}`}
         onClick={event => event.stopPropagation()}
       >
-        <div className={`options-group ${className && `${className}-options-group`}`}>
+        <div className={`options-group ${this.getClassName('options-group')}`}>
           {item.label}
           {' : '}
           &nbsp;
         </div>
         {item.options.map((data, index) => (
-          <div key={index} className={`options-value ${className && `${className}-options-value`}`}>
+          <div key={index} className={`options-value ${this.getClassName('options-value')}`}>
             {(item.options.length >= 2 && index === item.options.length - 1)
               ? (
                 <span>
-                  <span className={`or-separator ${className && `${className}-or-separator`}`}>OR</span>
+                  <span className={`or-separator ${this.getClassName('or-separator')}`}>OR</span>
                   <span>
                     &nbsp;
                     {data.label}
@@ -71,13 +77,12 @@ class MultiLevelSelect extends React.Component {
         ))}
         <div
           onClick={() => this.removeSelectedGroup(item)}
-          className={`remove-group ${className && `${className}-remove-group`}`}
+          className={`remove-group ${this.getClassName('remove-group')}`}
         >
           &#10005;
         </div>
       </div>
-    ));
-  }
+    )))
 
   onOptionsChange = () => {
     const { onChange } = this.props;
@@ -92,6 +97,7 @@ class MultiLevelSelect extends React.Component {
 
   handleClickOutside = () => {
     const { isMenuOpen } = this.state;
+
     return isMenuOpen && this.setState({ isMenuOpen: false });
   }
 
@@ -102,18 +108,19 @@ class MultiLevelSelect extends React.Component {
 
   renderButton = () => {
     const { isMenuOpen } = this.state;
-    const { className } = this.props;
+
     return (
       <div className="multi-selector-button" onClick={this.toggleMenu}>
-        <div className={isMenuOpen ? `arrow-up ${className && `${className}-arrow-up`}` : `arrow-down ${className && `${className}-arrow-down`}`} />
+        <div className={isMenuOpen ? `arrow-up ${this.getClassName('arrow-up')}` : `arrow-down ${this.getClassName('arrow-down')}`} />
       </div>
     );
   }
 
   renderPlaceholder = () => {
-    const { placeholder, className } = this.props;
+    const { placeholder } = this.props;
+
     return (
-      <div className={`multi-selector-placeholder ${className && `${className}-multi-selector-placeholder`}`}>
+      <div className={`multi-selector-placeholder ${this.getClassName('multi-selector-placeholder')}`}>
         {placeholder || 'Filter by custom attributes'}
       </div>
     );
@@ -121,26 +128,26 @@ class MultiLevelSelect extends React.Component {
 
   renderOptions = () => {
     const { values } = this.state;
-    const { options, className } = this.props;
+    const { options } = this.props;
 
     return (
       <div className="options-main-menu">
         {
           options.map((item, i) => (
             <div key={i} className="options-container">
-              <div className={`options-label ${className && `${className}-options-label`}`}>{item.label}</div>
+              <div className={`options-label ${this.getClassName('options-label')}`}>{item.label}</div>
               {item.options && (
                 <>
-                  <div className={`arrow-right ${className && `${className}-arrow-right`}`} />
-                  <div className={`options-sub-menu-container ${className && `${className}-options-sub-menu-container`}`}>
+                  <div className={`arrow-right ${this.getClassName('arrow-right')}`} />
+                  <div className={`options-sub-menu-container ${this.getClassName('options-sub-menu-container')}`}>
                     <div
-                      className={`options-sub-menu-header ${className && `${className}-options-sub-menu-header`}`}
+                      className={`options-sub-menu-header ${this.getClassName('options-sub-menu-header')}`}
                     >
                       {item.label}
                     </div>
                     {item.options.map((subItem, index) => (
                       <label key={index}>
-                        <div className={`options-sub-menu ${className && `${className}-options-sub-menu`}`}>
+                        <div className={`options-sub-menu ${this.getClassName('options-sub-menu')}`}>
                           <input
                             type="checkbox"
                             value={subItem.value}
@@ -149,10 +156,12 @@ class MultiLevelSelect extends React.Component {
                                 && value.options.some(data => data.value === subItem.value))
                             }
                             name={subItem.label}
-                            onChange={event => this.selectOption({ value: item.value, label: item.label }, event)}
+                            onChange={event => this.selectOption(
+                              { value: item.value, label: item.label }, event,
+                            )}
                           />
                           <div className="checkbox"><span className="checkmark" /></div>
-                          <div className={`options-label ${className && `${className}-options-label`}`}>{subItem.label}</div>
+                          <div className={`options-label ${this.getClassName('options-label')}`}>{subItem.label}</div>
                         </div>
                       </label>
                     ))}
@@ -168,11 +177,11 @@ class MultiLevelSelect extends React.Component {
 
   render() {
     const { values, isMenuOpen } = this.state;
-    const { className } = this.props;
+
     return (
       <div className="multi-level-selector-container">
         <div
-          className={`multi-selector-container ${className && `${className}-multi-selector-container`} ${isMenuOpen ? `active ${className && `${className}-active`}` : 'inactive'}`}
+          className={`multi-selector-container ${this.getClassName('multi-selector-container')} ${isMenuOpen ? `active ${this.getClassName('active')}` : 'inactive'}`}
         >
           <div className="multi-selector" onClick={this.toggleMenu}>
             {!values.length && this.renderPlaceholder()}
@@ -180,7 +189,7 @@ class MultiLevelSelect extends React.Component {
           </div>
           {this.renderButton()}
         </div>
-        <div className={`multi-level-options-container ${className && `${className}-multi-level-options-container`} ${isMenuOpen ? `menu-open ${className && `${className}-menu-open`}` : `menu-close ${className && `${className}-menu-open`}`}`}>
+        <div className={`multi-level-options-container ${this.getClassName('multi-level-options-container')} ${isMenuOpen ? `menu-open ${this.getClassName('menu-open')}` : `menu-close ${this.getClassName('menu-close')}`}`}>
           {this.renderOptions()}
         </div>
       </div>
