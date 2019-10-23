@@ -1,0 +1,278 @@
+.multi-level-selector-container {
+  $greyOne: #F0F0F0;
+  $greyTwo: #555;
+  $greyThree: #eee;
+  $greyFour: #ccc;
+  $black: #000000;
+  $placeholder: rgb(129, 129, 129);
+  $white: #FFFFFF;
+  $blue: #2196F3;
+  $red: #FF0000;
+
+  box-sizing: border-box;
+  width: 100%;
+
+  .menu-close {
+    display: none;
+  }
+
+  .menu-open {
+    display: block;
+  }
+
+  .active {
+    box-shadow: 0px 0px 0px 1px $blue;
+  }
+
+  .inactive {
+    box-shadow: none;
+  }
+
+  .multi-selector-container {
+    display: flex;
+    flex-direction: row;
+    border: 1px solid $greyFour;
+    max-width: 100%;
+    background-color: $white;
+
+    .multi-selector {
+      width: 100%;
+      display: flex;
+      align-items: center;
+      flex-wrap: wrap;
+      overflow-x: auto;
+
+      .multi-selector-placeholder {
+        font-size: 16px;
+        color: $placeholder;
+        margin-left: 10px;
+      }
+
+      .options-selected-container {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        margin: 5px;
+        padding: 5px 10px;
+        border-radius: 20px;
+        font-size: 14px;
+        background-color: #F0F0F0;
+        min-width: max-content;
+        flex-wrap: nowrap;
+
+        .options-value {
+          display: inline-block;
+        }
+
+        .options-group {
+          color: $black;
+          font-size: 14px;
+          font-weight: bold;
+        }
+
+        .or-separator {
+          color: $greyTwo;
+          display: inline;
+        }
+
+        .remove-group {
+          color: $greyFour;
+          font-size: 16px;
+          margin-left: 3px;
+          cursor: pointer;
+
+          &:hover {
+            color: $red;
+          }
+        }
+      }
+    }
+
+    .multi-selector-button {
+      display: flex;
+      align-items: center;
+      margin: 8px;
+      min-width: 25px;
+      height: 25px;
+
+      &:hover {
+        .arrow-down {
+          border-top: 10px solid $greyTwo;
+        }
+
+        .arrow-up {
+          border-bottom: 10px solid $greyTwo;
+        }
+      }
+
+      .arrow-down {
+        width: 0;
+        height: 0;
+        border-left: 10px solid transparent;
+        border-right: 10px solid transparent;
+        border-top: 10px solid $greyFour;
+
+        &:hover {
+          border-top: 10px solid $greyTwo;
+        }
+      }
+
+      .arrow-up {
+        width: 0;
+        height: 0;
+        border-left: 10px solid transparent;
+        border-right: 10px solid transparent;
+        border-bottom: 10px solid $greyTwo;
+      }
+    }
+  }
+
+  .multi-level-options-container {
+    position: absolute;
+    background-color: $white;
+    margin-top: 5px;
+    border-radius: 5px;
+    z-index: 1;
+    box-shadow: 0px 0px 5px $greyFour;
+    min-width: 200px;
+
+    .options-main-menu {
+      position: relative;
+      margin: 0;
+      padding: 0;
+
+      .options-container {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 10px 8px 10px 18px;
+        position: relative;
+
+        .options-label {
+          max-width: 180px;
+          word-break: break-all;
+          padding-right: 10px;
+        }
+
+        .options-sub-menu-container {
+          background-color: $white;
+          box-shadow: 0px 0px 3px $greyFour;
+          border-radius: 5px;
+          position: absolute;
+          width: max-content;
+          top: 0;
+          right: 0;
+          z-index: 1;
+          transform: translate(100%, 0);
+          display: none;
+
+          .options-sub-menu-header {
+            font-size: 14px;
+            padding: 10px 15px;
+            color: $placeholder;
+            text-transform: uppercase;
+          }
+
+          .options-sub-menu {
+            display: flex;
+            align-items: center;
+            padding: 10px 25px 10px 15px;
+            cursor: pointer;
+
+            &:hover {
+              background-color: $greyOne;
+            }
+
+            input {
+              position: absolute;
+              opacity: 0;
+              cursor: pointer;
+              height: 0;
+              width: 0;
+
+              &:checked~.checkbox {
+                .checkmark {
+                  background-color: $blue;
+                }
+              }
+
+              &:checked~.checkbox {
+                .checkmark:after {
+                  display: block;
+                }
+              }
+            }
+
+            .checkbox {
+              position: relative;
+              height: 14px;
+              width: 14px;
+              margin-right: 10px;
+
+              .checkmark {
+                position: absolute;
+                height: 14px;
+                width: 14px;
+                background-color: $white;
+                border-radius: 3px;
+                border: 1px solid $greyFour;
+
+                &:after {
+                  content: "";
+                  position: absolute;
+                  display: none;
+                  left: 5px;
+                  top: 1.5px;
+                  width: 2px;
+                  height: 7px;
+                  border: solid $white;
+                  border-width: 0 2px 2px 0;
+                  -webkit-transform: rotate(45deg);
+                  -ms-transform: rotate(45deg);
+                  transform: rotate(45deg);
+                }
+              }
+            }
+
+            &:hover input~.checkbox {
+              .checkmark {
+                background-color: $white;
+              }
+            }
+
+            &:hover input:checked~.checkbox {
+              .checkmark {
+                background-color: $blue;
+              }
+            }
+          }
+        }
+
+        &:hover {
+          background-color: $greyOne;
+          cursor: pointer;
+
+          .options-sub-menu-container {
+            display: block;
+          }
+
+          .arrow-right {
+            border-left: 7px solid $greyTwo;
+          }
+        }
+
+        .arrow-right {
+          width: 0;
+          height: 0;
+          border-top: 7px solid transparent;
+          border-bottom: 7px solid transparent;
+          border-left: 7px solid $greyFour;
+
+          &:hover {
+            border-left: 7px solid $greyTwo;
+          }
+        }
+      }
+    }
+  }
+}
