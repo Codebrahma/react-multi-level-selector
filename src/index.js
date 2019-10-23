@@ -22,7 +22,7 @@ class MultiSelect extends React.Component {
       };
       if (!values.some(item => item.value === data.value)) {
         this.setState({ values: [...values, { ...data, options: [selectedOption] }] },
-          () => this.onOptionsChange());
+          this.onOptionsChange);
       } else {
         const selectedOptions = values.map((item) => {
           if (item.value === data.value) {
@@ -30,13 +30,13 @@ class MultiSelect extends React.Component {
           }
           return item;
         });
-        this.setState({ values: selectedOptions }, () => this.onOptionsChange());
+        this.setState({ values: selectedOptions }, this.onOptionsChange);
       }
     } else {
       const uncheckedOption = values.map(item => (
         { ...item, options: item.options.filter(i => i.value !== value) }
       )).filter(filtering => filtering.options.length !== 0);
-      this.setState({ values: uncheckedOption }, () => this.onOptionsChange());
+      this.setState({ values: uncheckedOption }, this.onOptionsChange);
     }
   }
 
@@ -87,7 +87,7 @@ class MultiSelect extends React.Component {
 
   removeSelectedGroup = ({ value }) => {
     const { values } = this.state;
-    this.setState({ values: values.filter(data => data.value !== value) }, () => this.onOptionsChange());
+    this.setState({ values: values.filter(data => data.value !== value) }, this.onOptionsChange);
   }
 
   handleClickOutside = () => {
