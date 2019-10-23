@@ -1,6 +1,6 @@
 # react-multi-level-selector
 
-🔔 React component for Multi level options Selector for your application.
+:bell: React component for Multi level options Selector for your application.
 
 <img src="demo.gif" alt="" align="middle" />
 

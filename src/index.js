@@ -8,13 +8,13 @@ class MultiLevelSelect extends React.Component {
     super();
     this.state = {
       values: [],
-      showMenu: false,
+      isMenuOpen: false,
     };
   }
 
-  selectOption = (data, e) => {
+  selectOption = (data, event) => {
     const { values } = this.state;
-    const { value, name, checked } = e.target;
+    const { value, name, checked } = event.target;
     if (checked) {
       const selectedOption = {
         value,
@@ -34,8 +34,8 @@ class MultiLevelSelect extends React.Component {
       }
     } else {
       const uncheckedOption = values.map(item => (
-        { ...item, options: item.options.filter(i => i.value !== value) }
-      )).filter(filtering => filtering.options.length !== 0);
+        { ...item, options: item.options.filter(option => option.value !== value) }
+      )).filter(filterOption => filterOption.options.length !== 0);
       this.setState({ values: uncheckedOption }, this.onOptionsChange);
     }
   }
@@ -91,21 +91,21 @@ class MultiLevelSelect extends React.Component {
   }
 
   handleClickOutside = () => {
-    const { showMenu } = this.state;
-    return showMenu && this.setState({ showMenu: false });
+    const { isMenuOpen } = this.state;
+    return isMenuOpen && this.setState({ isMenuOpen: false });
   }
 
   toggleMenu = () => {
-    const { showMenu } = this.state;
-    this.setState({ showMenu: !showMenu });
+    const { isMenuOpen } = this.state;
+    this.setState({ isMenuOpen: !isMenuOpen });
   }
 
   renderButton = () => {
-    const { showMenu } = this.state;
+    const { isMenuOpen } = this.state;
     const { className } = this.props;
     return (
       <div className="multi-selector-button" onClick={this.toggleMenu}>
-        <div className={showMenu ? `arrow-up ${className && `${className}-arrow-up`}` : `arrow-down ${className && `${className}-arrow-up`}`} />
+        <div className={isMenuOpen ? `arrow-up ${className && `${className}-arrow-up`}` : `arrow-down ${className && `${className}-arrow-up`}`} />
       </div>
     );
   }
@@ -149,7 +149,7 @@ class MultiLevelSelect extends React.Component {
                                 && value.options.some(data => data.value === subItem.value))
                             }
                             name={subItem.label}
-                            onChange={e => this.selectOption({ value: item.value, label: item.label }, e)}
+                            onChange={event => this.selectOption({ value: item.value, label: item.label }, event)}
                           />
                           <div className="checkbox"><span className="checkmark" /></div>
                           <div className={`options-label ${className && `${className}-options-label`}`}>{subItem.label}</div>
@@ -167,12 +167,12 @@ class MultiLevelSelect extends React.Component {
   }
 
   render() {
-    const { values, showMenu } = this.state;
+    const { values, isMenuOpen } = this.state;
     const { className } = this.props;
     return (
       <div className="multi-level-selector-container">
         <div
-          className={`multi-selector-container ${className && `${className}-multi-selector-container`} ${showMenu ? `active ${className && `${className}-active`}` : 'inactive'}`}
+          className={`multi-selector-container ${className && `${className}-multi-selector-container`} ${isMenuOpen ? `active ${className && `${className}-active`}` : 'inactive'}`}
         >
           <div className="multi-selector" onClick={this.toggleMenu}>
             {!values.length && this.renderPlaceholder()}
@@ -180,7 +180,7 @@ class MultiLevelSelect extends React.Component {
           </div>
           {this.renderButton()}
         </div>
-        <div className={`multi-level-options-container ${className && `${className}-multi-level-options-container`} ${showMenu ? `menu-open ${className && `${className}-menu-open`}` : `menu-close ${className && `${className}-menu-open`}`}`}>
+        <div className={`multi-level-options-container ${className && `${className}-multi-level-options-container`} ${isMenuOpen ? `menu-open ${className && `${className}-menu-open`}` : `menu-close ${className && `${className}-menu-open`}`}`}>
           {this.renderOptions()}
         </div>
       </div>
