@@ -15,6 +15,7 @@ class MultiLevelSelect extends React.Component {
 
   getClassName = (suffix) => {
     const { className } = this.props;
+
     return suffixedClassName(className, suffix);
   }
 
