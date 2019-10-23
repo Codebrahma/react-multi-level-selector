@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import listensToClickOutside from 'react-onclickoutside';
 import './style.scss';
 
-class MultiSelect extends React.Component {
+class MultiLevelSelect extends React.Component {
   constructor() {
     super();
     this.state = {
@@ -188,7 +188,7 @@ class MultiSelect extends React.Component {
   }
 }
 
-MultiSelect.propTypes = {
+MultiLevelSelect.propTypes = {
   placeholder: PropTypes.string,
   onChange: PropTypes.func,
   options: PropTypes.arrayOf(PropTypes.shape({
@@ -202,11 +202,11 @@ MultiSelect.propTypes = {
   className: PropTypes.string,
 };
 
-MultiSelect.defaultProps = {
+MultiLevelSelect.defaultProps = {
   placeholder: '',
   options: [],
   onChange: () => { },
   className: '',
 };
 
-export default listensToClickOutside(MultiSelect);
+export default listensToClickOutside(MultiLevelSelect);

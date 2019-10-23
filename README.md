@@ -16,7 +16,7 @@ npm install --save react-multi-level-selector
 
 ```Javascript
 import React from 'react';
-import MultiSelect from 'react-multi-level-selector';
+import MultiLevelSelect from 'react-multi-level-selector';
 
 const options = [
   { value: 'fruits', label: 'Fruits',
@@ -37,7 +37,7 @@ const options = [
 function App() {
   return (
     <div>
-      <MultiSelect
+      <MultiLevelSelect
         options={options}
       />
       <div>This is a test application</div>
