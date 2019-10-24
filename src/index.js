@@ -29,24 +29,37 @@ class MultiLevelSelect extends React.Component {
         label: name,
       };
 
-      if (values.some(item => item.value === data.value)) {
-        const selectedOptions = values.map((item) => {
-          if (item.value === data.value) {
-            return { ...item, options: [...item.options, selectedOption] };
-          }
-          return item;
-        });
-        this.setState({ values: selectedOptions }, this.onOptionsChange);
-      } else {
-        this.setState({ values: [...values, { ...data, options: [selectedOption] }] },
-          this.onOptionsChange);
+      let optionNotAvailable = true;
+
+      if (values.length === 0) {
+        return this.setState(
+          { values: [...values, { ...data, options: [selectedOption] }] },
+          this.onOptionsChange,
+        );
       }
-    } else {
-      const uncheckedOption = values.map(item => (
-        { ...item, options: item.options.filter(option => option.value !== value) }
-      )).filter(filterOption => filterOption.options.length !== 0);
-      this.setState({ values: uncheckedOption }, this.onOptionsChange);
+
+      const selectedOptions = values.map((item) => {
+        if (item.value === data.value) {
+          optionNotAvailable = false;
+          return { ...item, options: [...item.options, selectedOption] };
+        }
+        return item;
+      });
+
+      if (optionNotAvailable) {
+        return this.setState(
+          { values: [...values, { ...data, options: [selectedOption] }] },
+          this.onOptionsChange,
+        );
+      }
+
+      return this.setState({ values: selectedOptions }, this.onOptionsChange);
     }
+
+    const uncheckedOption = values.map(item => (
+      { ...item, options: item.options.filter(option => option.value !== value) }
+    )).filter(filterOption => filterOption.options.length !== 0);
+    return this.setState({ values: uncheckedOption }, this.onOptionsChange);
   }
 
   renderOptionsSelected = values => (
