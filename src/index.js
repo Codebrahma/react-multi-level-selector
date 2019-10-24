@@ -65,7 +65,7 @@ class MultiLevelSelect extends React.Component {
   renderOptionsSelected = values => (
     values.map((item, i) => (
       <div
-        key={i}
+        key={`${item.value}-${i}`}
         className={`options-selected-container ${this.getClassName('options-selected-container')}`}
         onClick={event => event.stopPropagation()}
       >
@@ -75,7 +75,7 @@ class MultiLevelSelect extends React.Component {
           &nbsp;
         </div>
         {item.options.map((data, index) => (
-          <div key={index} className={`options-value ${this.getClassName('options-value')}`}>
+          <div key={`${item.value}-${index}`} className={`options-value ${this.getClassName('options-value')}`}>
             {(item.options.length >= 2 && index === item.options.length - 1)
               ? (
                 <span>
@@ -149,7 +149,7 @@ class MultiLevelSelect extends React.Component {
       <div className="options-main-menu">
         {
           options.map((item, i) => (
-            <div key={i} className="options-container">
+            <div key={`${item.value}-${i}`} className="options-container">
               <div className={`options-label ${this.getClassName('options-label')}`}>{item.label}</div>
               {item.options && (
                 <>
@@ -161,7 +161,7 @@ class MultiLevelSelect extends React.Component {
                       {item.label}
                     </div>
                     {item.options.map((subItem, index) => (
-                      <label key={index}>
+                      <label key={`${subItem.value}-${index}`}>
                         <div className={`options-sub-menu ${this.getClassName('options-sub-menu')}`}>
                           <input
                             type="checkbox"
