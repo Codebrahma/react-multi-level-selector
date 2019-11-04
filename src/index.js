@@ -26,32 +26,25 @@ class MultiLevelSelect extends React.Component {
 
     const { values } = this.state;
     const { value, name, checked } = event.target;
-    let updatedOption = {};
     if (checked) {
 
-      const selectedOption = {
-        value,
-        label: name,
-      };
-
       const parentValue = data[0].value;
-
+      const updatedOption = data[0];
       const findIndex = values.findIndex(x => x.value === parentValue);
 
       if (findIndex === -1) {
         return this.setState(
-          { values: [...values, ...this.addSelectedOption(data, parent, selectedOption)] },
+          { values: [...values, updatedOption] },
           this.onOptionsChange,
         );
       }
-
-      updatedOption = this.addSelectedOption(data, parent, selectedOption)[0];
 
       const newData = values.map(item => {
         if (item.value === parentValue)
           return updatedOption;
         return item
       });
+
       return this.setState({ values: newData }, this.onOptionsChange);
     }
 
@@ -70,23 +63,6 @@ class MultiLevelSelect extends React.Component {
       return item
     })
   }
-
-  addSelectedOption = (data, parent, selectedOption) => {
-    return uniqWith(data.map(item => {
-      if (item.options) {
-        if (item.value === parent) {
-          const optionAvailable = item.options.findIndex(x => x.value === selectedOption.value);
-          if (optionAvailable === -1) {
-            return { ...item, options: [selectedOption, ...item.options] };
-          }
-          return item
-        }
-        return { ...item, options: [...this.addSelectedOption(item.options, parent, selectedOption)] }
-      }
-      return item
-    }), isEqual)
-  }
-
 
   renderOptionsSelected = values => (
     values.map((item, i) => (
@@ -204,18 +180,14 @@ class MultiLevelSelect extends React.Component {
   }
 
   optionChecked = (values, optionValue, parent) => {
-    // console.log(optionValue, parent);
     return values.some(e => {
       if (e.value === parent) {
-        // console.log('inside')
         return e.options.some(item => {
-          // console.log('item', item)
           if (item.value === optionValue) {
             return true
           }
         })
       }
-      // console.log('outside')
       if (e.options)
         return this.optionChecked(e.options, optionValue, parent)
       return false;

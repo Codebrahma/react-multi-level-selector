@@ -19,7 +19,6 @@ const findParent = (item, selectedOption, category, tree, path, callback) => {
 const findOption = (current, item, selectedOption) => {
   let optionData = {};
   let temp2 = {};
-
   const optionsData = item.find(x => x.value === current[0].value);
 
   const opt = addNewOptions([optionsData], current, selectedOption);
@@ -30,7 +29,7 @@ const findOption = (current, item, selectedOption) => {
 
   for (var i = current.length - 1; i >= 0; i--) {
     if (i === current.length - 1)
-      optionData = { ...current[i], options: [] }
+      optionData = { ...current[i], options: [selectedOption] }
     temp2 = { ...current[i - 1], options: [optionData] }
     optionData = temp2;
   }
@@ -38,14 +37,14 @@ const findOption = (current, item, selectedOption) => {
   return optionData.options
 }
 
-const addNewOptions = (optionsData = [], data, parent) => {
+const addNewOptions = (optionsData = [], data, selectedOption) => {
   let options = {}
   let temp2 = {}
   if (!optionsData.includes(undefined)) {
     const current = recur(optionsData, data)
     for (var i = current.length - 1; i >= 0; i--) {
       if (i === current.length - 1) {
-        options = { ...current[i] }
+        options = { ...current[i], options: [selectedOption, ...current[i].options] }
       }
 
       if (i > 0) {
