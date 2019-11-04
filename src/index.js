@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import listensToClickOutside from 'react-onclickoutside';
 import suffixedClassName from './suffixedClassName';
-import findParent from './helper';
+import findParentStructure from './helper';
 import './style.scss';
 
 class MultiLevelSelect extends React.Component {
@@ -23,7 +23,7 @@ class MultiLevelSelect extends React.Component {
   selectOption = (data, parent, event) => {
 
     const { values } = this.state;
-    const { value, name, checked } = event.target;
+    const { value, checked } = event.target;
     if (checked) {
 
       const parentValue = data[0].value;
@@ -180,11 +180,7 @@ class MultiLevelSelect extends React.Component {
   optionChecked = (values, optionValue, parent) => {
     return values.some(e => {
       if (e.value === parent) {
-        return e.options.some(item => {
-          if (item.value === optionValue) {
-            return true
-          }
-        })
+        return e.options.some(item => item.value === optionValue)
       }
       if (e.options)
         return this.optionChecked(e.options, optionValue, parent)
@@ -229,7 +225,7 @@ class MultiLevelSelect extends React.Component {
               name={item.label}
               onChange={(event) => {
                 let self = this
-                findParent(values, { value: item.value, label: item.label }, item.value, options, [], function (data) {
+                findParentStructure(values, { value: item.value, label: item.label }, item.value, options, [], function (data) {
                   self.selectOption(data, parent.value, event)
                 })
               }}

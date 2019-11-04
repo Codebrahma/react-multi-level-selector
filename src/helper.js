@@ -1,82 +1,86 @@
 
-const findParent = (item, selectedOption, category, tree, path, callback) => {
+const findParentStructure = (options, selectedOption, optionValue, tree, path, callback) => {
   for (let i = tree.length - 1; i >= 0; i--) {
     (function () {
       var currentPath = path.slice();
 
-      if (tree[i].value === category) {
-        callback(findOption(currentPath, item, selectedOption));
+      if (tree[i].value === optionValue) {
+        callback(findHierarchyAddSelectedOption(currentPath, options, selectedOption));
       } else {
         if (tree[i].options) {
           currentPath.push({ value: tree[i].value, label: tree[i].label, options: [] });
-          findParent(item, selectedOption, category, tree[i].options, currentPath, callback);
+          findParentStructure(options, selectedOption, optionValue, tree[i].options, currentPath, callback);
         }
       }
-    })(tree[i]);
+    })();
   }
 }
 
-const findOption = (current, item, selectedOption) => {
-  let optionData = {};
-  let temp2 = {};
-  const optionsData = item.find(x => x.value === current[0].value);
+//once the top to bottom level hierachy is found we arrange it in nested structure as the original options data hierachy structure.
 
-  const opt = addNewOptions([optionsData], current, selectedOption);
+const findHierarchyAddSelectedOption = (currentPath, options, selectedOption) => {
+  let option = {};
+  let temp = {};
 
-  if (opt !== undefined) {
-    return opt
+  //find the main object of that value in the selected options
+  const optionsData = options.find(x => x.value === currentPath[0].value);
+
+  if (optionsData !== undefined) {
+    return addSelectedOption([optionsData], currentPath, selectedOption)
   }
 
-  for (var i = current.length - 1; i >= 0; i--) {
-    if (i === current.length - 1)
-      optionData = { ...current[i], options: [selectedOption] }
-    temp2 = { ...current[i - 1], options: [optionData] }
-    optionData = temp2;
-  }
-
-  return optionData.options
-}
-
-const addNewOptions = (optionsData = [], data, selectedOption) => {
-  let options = {}
-  let temp2 = {}
-  if (!optionsData.includes(undefined)) {
-    const current = recur(optionsData, data)
-    for (var i = current.length - 1; i >= 0; i--) {
-      if (i === current.length - 1) {
-        options = { ...current[i], options: [selectedOption, ...current[i].options] }
-      }
-
-      if (i > 0) {
-        temp2 = { ...current[i - 1], options: [...current[i - 1].options, options] }
-        options = temp2;
-      }
+  for (let i = currentPath.length - 1; i >= 0; i--) {
+    if (i === currentPath.length - 1)
+      option = { ...currentPath[i], options: [selectedOption] }
+    if (i > 0) {
+      temp = { ...currentPath[i - 1], options: [option] }
+      option = temp;
     }
-    return [options];
   }
-
+  return [option]
 }
 
-//adds the previous selected options within the options of the parent
-const recur = (optionsData, data) => {
-  for (let i = 0; i <= optionsData.length - 1; i++) {
-    for (let j = 0; j <= data.length - 1; j++) {
+//add the selected option along with the previous selected options
 
-      if (optionsData[i].value === data[j].value) {
+const addSelectedOption = (optionsSelectedData, currentPath, selectedOption) => {
+  let options = {}
+  let temp = {}
+
+  const current = currentPathInHierarchy(optionsSelectedData, currentPath)
+
+  for (let i = current.length - 1; i >= 0; i--) {
+    if (i === current.length - 1) {
+      options = { ...current[i], options: [selectedOption, ...current[i].options] }
+    }
+
+    if (i > 0) {
+      temp = { ...current[i - 1], options: [...current[i - 1].options, options] }
+      options = temp;
+    }
+  }
+  return [options];
+}
+
+
+const currentPathInHierarchy = (optionsData, currentPath) => {
+  for (let i = 0; i <= optionsData.length - 1; i++) {
+    for (let j = 0; j <= currentPath.length - 1; j++) {
+
+      if (optionsData[i].value === currentPath[j].value) {
 
         if (optionsData[i].options) {
 
-          data[j].options = [...optionsData[i].options.filter(item => {
-            if (j < data.length - 1)
-              return item.value !== data[j + 1].value
+          currentPath[j].options = optionsData[i].options.filter(item => {
+            if (j < currentPath.length - 1)
+              return item.value !== currentPath[j + 1].value
             return item
-          })]
-          recur(optionsData[i].options, data)
+          })
+          currentPathInHierarchy(optionsData[i].options, currentPath)
         }
       }
     }
   }
-  return data;
+  return currentPath;
 }
 
-export default findParent;
+export default findParentStructure;
