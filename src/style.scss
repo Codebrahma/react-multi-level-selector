@@ -252,7 +252,7 @@
           background-color: $greyOne;
           cursor: pointer;
 
-          .options-sub-menu-container {
+          &>.options-sub-menu-container {
             display: block;
           }
 
