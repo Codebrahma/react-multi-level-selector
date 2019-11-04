@@ -2,8 +2,6 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import listensToClickOutside from 'react-onclickoutside';
 import suffixedClassName from './suffixedClassName';
-import uniqWith from 'lodash.uniqwith';
-import isEqual from 'lodash.isequal';
 import findParent from './helper';
 import './style.scss';
 

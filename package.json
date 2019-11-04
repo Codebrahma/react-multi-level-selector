@@ -19,8 +19,6 @@
     "react": "^16.8.6",
     "react-dom": "^16.9.0",
     "react-onclickoutside": "^6.9.0",
-    "lodash.isequal": "^4.5.0",
-    "lodash.uniqwith": "^4.5.0",
     "webpack": "^4.39.1"
   },
   "scripts": {
