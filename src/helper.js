@@ -20,14 +20,14 @@ const findParentStructure = (
 
     if (tree[i].value === optionValue) {
       // condition for the objects which dont have options in the top level.
-      if (currentPath.length === 0) {
+      if (currentPath.length === 0 && parent === undefined) {
         callback({ value: tree[i].value, label: tree[i].label });
         break;
       }
 
       // checking whether the options parent and the currentPath last object
       // value is same, bcz some of the options values might be same but have different parent.
-      if (currentPath[currentPath.length - 1].value === parent) {
+      if (currentPath.length && currentPath[currentPath.length - 1].value === parent) {
         optionFound = true;
         callback(findHierarchyAddSelectedOption(currentPath, options, selectedOption));
         break;

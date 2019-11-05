@@ -69,18 +69,28 @@ class MultiLevelSelect extends React.Component {
     return this.setState({ values: uncheckedOption }, this.onOptionsChange);
   }
 
+  // remove options
   removeOption = (
     values, optionParent, removeOption, removeOptionParent,
   ) => values.filter((item) => {
     if (item.value.includes(removeOption)) {
-      if (optionParent === removeOptionParent) return false;
+      // checks if parent are undefined bcz level 1 menu dont have parents
+      if (removeOptionParent !== undefined && optionParent !== undefined) {
+        // if the parents match then only the particular child
+        // is removed from the options array
+        if (optionParent === removeOptionParent) return false;
+      }
+      // this condition is satisfied for level 1 options
+      if (removeOptionParent === optionParent) return false;
     }
     if (item.options) {
-      return (item.options = this.removeOption(item.options, item.value,
-        removeOption, removeOptionParent)).length;
+      return (item.options = this.removeOption(
+        item.options, item.value, removeOption, removeOptionParent,
+      )).length;
     }
     return item;
   })
+
 
   isOptionChecked = (values, optionValue, parent) => {
     if (parent) {
@@ -120,8 +130,8 @@ class MultiLevelSelect extends React.Component {
         {item.options
           && (
             <div>
-              {counter === 0 ?
-                (<span className={`options-group ${this.getClassName('options-group')}`}>{` ${item.label}`}</span>)
+              {counter === 0
+                ? (<span className={`options-group ${this.getClassName('options-group')}`}>{` ${item.label}`}</span>)
                 : (data.length > 1 ? `, ${item.label}` : ` ${item.label}`)}
               <span className={`options-group ${this.getClassName('options-group')}`}>{' ->'}</span>
               &nbsp;
