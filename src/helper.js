@@ -1,19 +1,22 @@
-
-const findParentStructure = (options, selectedOption, optionValue, tree, path, parent, callback) => {
+var optionFound = false
+const findParentStructure = (options, selectedOption, optionValue, tree, path, parent, callback, found = false) => {
+  optionFound = found;
   for (let i = tree.length - 1; i >= 0; i--) {
-    (function () {
-      var currentPath = path.slice();
+    var currentPath = path.slice();
 
-      if (tree[i].value === optionValue) {
-        if (currentPath[currentPath.length - 1].value === parent)
-          callback(findHierarchyAddSelectedOption(currentPath, options, selectedOption));
-      } else {
+    if (tree[i].value === optionValue) {
+      if (currentPath[currentPath.length - 1].value === parent) {
+        callback(findHierarchyAddSelectedOption(currentPath, options, selectedOption));
+        optionFound = true;
+      }
+    } else {
+      if (!optionFound) {
         if (tree[i].options) {
           currentPath.push({ value: tree[i].value, label: tree[i].label, options: [] });
-          findParentStructure(options, selectedOption, optionValue, tree[i].options, currentPath, parent, callback);
+          findParentStructure(options, selectedOption, optionValue, tree[i].options, currentPath, parent, callback, optionFound);
         }
       }
-    })();
+    }
   }
 }
 

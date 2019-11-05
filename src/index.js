@@ -226,9 +226,13 @@ class MultiLevelSelect extends React.Component {
               name={item.label}
               onChange={(event) => {
                 let self = this
-                findParentStructure(values, { value: item.value, label: item.label }, item.value, options, [], parent.value, (data) => {
-                  self.selectOption(data, parent.value, event)
-                })
+                if (!checked) {
+                  findParentStructure(values, { value: item.value, label: item.label }, item.value, options, [], parent.value, (data) => {
+                    self.selectOption(data, parent.value, event)
+                  })
+                } else {
+                  self.selectOption({}, parent.value, event)
+                }
               }}
             />
             <div className="checkbox"><span className="checkmark" /></div>
