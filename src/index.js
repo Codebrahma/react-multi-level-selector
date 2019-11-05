@@ -91,7 +91,6 @@ class MultiLevelSelect extends React.Component {
     return item;
   })
 
-
   isOptionChecked = (values, optionValue, parent) => {
     if (parent) {
       return values.some((e) => {
