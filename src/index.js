@@ -20,102 +20,6 @@ class MultiLevelSelect extends React.Component {
     return suffixedClassName(className, suffix);
   }
 
-  selectOption = (data, parent, event) => {
-
-    const { values } = this.state;
-    const { value, checked } = event.target;
-    if (checked) {
-
-      const parentValue = data.value;
-      const updatedOption = data;
-      const findIndex = values.findIndex(x => x.value === parentValue);
-
-      if (findIndex === -1) {
-        return this.setState(
-          { values: [...values, updatedOption] },
-          this.onOptionsChange,
-        );
-      }
-
-      const newData = values.map(item => {
-        if (item.value === parentValue)
-          return updatedOption;
-        return item
-      });
-
-      return this.setState({ values: newData }, this.onOptionsChange);
-    }
-
-    const uncheckedOption = this.removeOption(values, parent, value, parent);
-    return this.setState({ values: uncheckedOption }, this.onOptionsChange);
-  }
-
-  removeOption = (values, optionParent, removeOption, removeOptionParent) => {
-    return values.filter(item => {
-      if (item.value.includes(removeOption)) {
-        if (optionParent === removeOptionParent)
-          return false;
-      }
-      if (item.options) {
-        return (item.options = this.removeOption(item.options, item.value, removeOption, removeOptionParent)).length
-      }
-      return item
-    })
-  }
-
-  renderOptionsSelected = values => (
-    values.map((item, i) => (
-      <div
-        key={i}
-        className={`options-selected-container ${this.getClassName('options-selected-container')}`}
-        onClick={event => event.stopPropagation()}
-      >
-
-        {this.renderSubOptionsSelected([item], i = 0)}
-        <div
-          onClick={() => this.removeSelectedGroup(item)}
-          className={`remove-group ${this.getClassName('remove-group')}`}
-        >
-          &#10005;
-        </div>
-      </div>
-    )))
-
-  renderSubOptionsSelected = (data) => {
-    return (
-      <>
-        {data.map((item, index) => (
-          <React.Fragment key={`${item.value}-${index}`} >
-            {item.options &&
-              <div className={`options-group ${this.getClassName('options-group')}`}>
-                {` ${item.label}`}
-                {' -> '}
-                &nbsp;
-            </div>
-            }
-            {!item.options &&
-              <div className={`options-value ${this.getClassName('options-value')}`}>
-                {(data.length >= 2 && index === data.length - 1)
-                  ? (
-                    <span>
-                      <span className={`or-separator ${this.getClassName('or-separator')}`}>OR</span>
-                      <span>
-                        &nbsp;
-                      {item.label}
-                      </span>
-                    </span>
-                  )
-                  : (data.length >= 2 && index !== 0) ? `, ${item.label}` : item.label}
-                &nbsp;
-            </div>
-            }
-            {item.options && this.renderSubOptionsSelected(item.options)}
-          </React.Fragment>
-        ))}
-      </>
-    )
-  }
-
   onOptionsChange = () => {
     const { onChange } = this.props;
     const { values } = this.state;
@@ -138,6 +42,105 @@ class MultiLevelSelect extends React.Component {
     this.setState({ isMenuOpen: !isMenuOpen });
   }
 
+  selectOption = (data, parent, event) => {
+    const { values } = this.state;
+    const { value, checked } = event.target;
+    if (checked) {
+      const parentValue = data.value;
+      const updatedOption = data;
+      const isOptionAvailable = values.findIndex(option => option.value === parentValue);
+
+      if (isOptionAvailable === -1) {
+        return this.setState(
+          { values: [...values, updatedOption] },
+          this.onOptionsChange,
+        );
+      }
+
+      const updatedOptionsData = values.map((item) => {
+        if (item.value === parentValue) return updatedOption;
+        return item;
+      });
+
+      return this.setState({ values: updatedOptionsData }, this.onOptionsChange);
+    }
+
+    const uncheckedOption = this.removeOption(values, parent, value, parent);
+    return this.setState({ values: uncheckedOption }, this.onOptionsChange);
+  }
+
+  removeOption = (
+    values, optionParent, removeOption, removeOptionParent,
+  ) => values.filter((item) => {
+    if (item.value.includes(removeOption)) {
+      if (optionParent === removeOptionParent) return false;
+    }
+    if (item.options) {
+      return (item.options = this.removeOption(item.options, item.value,
+        removeOption, removeOptionParent)).length;
+    }
+    return item;
+  })
+
+  isOptionChecked = (values, optionValue, parent) => {
+    if (parent) {
+      return values.some((e) => {
+        if (e.value === parent) {
+          return e.options.some(item => item.value === optionValue);
+        }
+        if (e.options) return this.isOptionChecked(e.options, optionValue, parent);
+        return false;
+      });
+    }
+
+    return values.some(e => e.value === optionValue);
+  }
+
+  renderOptionsSelected = values => (
+    values.map((item, i) => (
+      <div
+        key={i}
+        className={`options-selected-container ${this.getClassName('options-selected-container')}`}
+        onClick={event => event.stopPropagation()}
+      >
+        {this.renderSubOptionsSelected([item])}
+        <div
+          onClick={() => this.removeSelectedGroup(item)}
+          className={`remove-group ${this.getClassName('remove-group')}`}
+        >
+          &#10005;
+        </div>
+      </div>
+    ))
+  )
+
+  renderSubOptionsSelected = (data, counter = 0) => (
+    data.map((item, index) => (
+      <React.Fragment key={`${item.value}-${index}`}>
+        {item.options
+          && (
+            <div>
+              {counter === 0 ?
+                (<span className={`options-group ${this.getClassName('options-group')}`}>{` ${item.label}`}</span>)
+                : (data.length > 1 ? `, ${item.label}` : ` ${item.label}`)}
+              <span className={`options-group ${this.getClassName('options-group')}`}>{' ->'}</span>
+              &nbsp;
+            </div>
+          )
+        }
+        {!item.options
+          && (
+            <div className={`options-value ${this.getClassName('options-value')}`}>
+              {(data.length >= 2 && index !== 0) ? `, ${item.label}` : item.label}
+              &nbsp;
+            </div>
+          )
+        }
+        {item.options && this.renderSubOptionsSelected(item.options, counter += 1)}
+      </React.Fragment>
+    ))
+  )
+
   renderCaretButton = () => {
     const { isMenuOpen } = this.state;
 
@@ -158,36 +161,21 @@ class MultiLevelSelect extends React.Component {
     );
   }
 
-  renderOptions = (options, parent = {}) => {
-    return (
-      <>
-        {
-          options.map((item, i) => {
-            if (item.options) {
-              return (<div key={i} className="options-container">
-                <div className={`options-label ${this.getClassName('options-label')}`}>{item.label}</div>
-                {this.renderSubMenu(item, parent)}
-              </div>);
-            }
-            return (
-              <div key={i}>{this.renderSubMenu(item, parent)}</div>
-            );
-          })
-        }
-      </>
-    );
-  }
-
-  optionChecked = (values, optionValue, parent) => {
-    return values.some(e => {
-      if (e.value === parent) {
-        return e.options.some(item => item.value === optionValue)
+  renderOptionsMenu = (options, parent = {}) => (
+    options.map((item, i) => {
+      if (item.options) {
+        return (
+          <div key={`${item.value}-${i}`} className="options-container">
+            <div className={`options-label ${this.getClassName('options-label')}`}>{item.label}</div>
+            {this.renderSubMenu(item, parent)}
+          </div>
+        );
       }
-      if (e.options)
-        return this.optionChecked(e.options, optionValue, parent)
-      return false;
+      return (
+        <React.Fragment key={`${item.value}-${i}`}>{this.renderSubMenu(item, parent)}</React.Fragment>
+      );
     })
-  }
+  )
 
   renderSubMenu = (item, parent = {}) => {
     const { values } = this.state;
@@ -202,44 +190,36 @@ class MultiLevelSelect extends React.Component {
             >
               {item.value}
             </div>
-            {this.renderOptions(item.options, item)}
+            {this.renderOptionsMenu(item.options, item)}
           </div>
         </>
       );
     }
-    const checked = this.optionChecked(values, item.value, parent.value);
-    if (!parent.value) {
-      return (
-        <div className="options-container">
+    const checked = this.isOptionChecked(values, item.value, parent.value);
+
+    return (
+      <label>
+        <div className={`options-sub-menu ${this.getClassName('options-sub-menu')}`}>
+          <input
+            type="checkbox"
+            value={item.value}
+            checked={checked}
+            name={item.label}
+            onChange={(event) => {
+              const self = this;
+              if (!checked) {
+                findParentStructure(values, item, item.value, options, [], parent.value, (data) => {
+                  self.selectOption(data, parent.value, event);
+                });
+              } else {
+                self.selectOption({}, parent.value, event);
+              }
+            }}
+          />
+          <div className="checkbox"><span className="checkmark" /></div>
           <div className={`options-label ${this.getClassName('options-label')}`}>{item.label}</div>
         </div>
-      )
-    }
-    return (
-      <>
-        <label>
-          <div className={`options-sub-menu ${this.getClassName('options-sub-menu')}`}>
-            <input
-              type="checkbox"
-              value={item.value}
-              checked={checked}
-              name={item.label}
-              onChange={(event) => {
-                let self = this
-                if (!checked) {
-                  findParentStructure(values, { value: item.value, label: item.label }, item.value, options, [], parent.value, (data) => {
-                    self.selectOption(data, parent.value, event)
-                  })
-                } else {
-                  self.selectOption({}, parent.value, event)
-                }
-              }}
-            />
-            <div className="checkbox"><span className="checkmark" /></div>
-            <div className={`options-label ${this.getClassName('options-label')}`}>{item.label}</div>
-          </div>
-        </label>
-      </>
+      </label>
     );
   }
 
@@ -259,7 +239,7 @@ class MultiLevelSelect extends React.Component {
         </div>
         <div className={`multi-level-options-container ${this.getClassName('multi-level-options-container')} ${isMenuOpen ? `menu-open ${this.getClassName('menu-open')}` : `menu-close ${this.getClassName('menu-close')}`}`}>
           <div className="options-main-menu">
-            {this.renderOptions(options)}
+            {this.renderOptionsMenu(options)}
           </div>
         </div>
       </div>
