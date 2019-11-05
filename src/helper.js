@@ -1,15 +1,16 @@
 
-const findParentStructure = (options, selectedOption, optionValue, tree, path, callback) => {
+const findParentStructure = (options, selectedOption, optionValue, tree, path, parent, callback) => {
   for (let i = tree.length - 1; i >= 0; i--) {
     (function () {
       var currentPath = path.slice();
 
       if (tree[i].value === optionValue) {
-        callback(findHierarchyAddSelectedOption(currentPath, options, selectedOption));
+        if (currentPath[currentPath.length - 1].value === parent)
+          callback(findHierarchyAddSelectedOption(currentPath, options, selectedOption));
       } else {
         if (tree[i].options) {
           currentPath.push({ value: tree[i].value, label: tree[i].label, options: [] });
-          findParentStructure(options, selectedOption, optionValue, tree[i].options, currentPath, callback);
+          findParentStructure(options, selectedOption, optionValue, tree[i].options, currentPath, parent, callback);
         }
       }
     })();
@@ -17,7 +18,6 @@ const findParentStructure = (options, selectedOption, optionValue, tree, path, c
 }
 
 //once the top to bottom level hierachy is found we arrange it in nested structure as the original options data hierachy structure.
-
 const findHierarchyAddSelectedOption = (currentPath, options, selectedOption) => {
   let option = {};
   let temp = {};

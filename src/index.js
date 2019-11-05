@@ -46,17 +46,18 @@ class MultiLevelSelect extends React.Component {
       return this.setState({ values: newData }, this.onOptionsChange);
     }
 
-    const uncheckedOption = this.removeOption(values, value, parent);
+    const uncheckedOption = this.removeOption(values, parent, value, parent);
     return this.setState({ values: uncheckedOption }, this.onOptionsChange);
   }
 
-  removeOption = (values, removeValue, parent) => {
+  removeOption = (values, optionParent, removeOption, removeOptionParent) => {
     return values.filter(item => {
-      if (item.value.includes(removeValue)) {
-        return false
+      if (item.value.includes(removeOption)) {
+        if (optionParent === removeOptionParent)
+          return false;
       }
       if (item.options) {
-        return (item.options = this.removeOption(item.options, removeValue, parent)).length
+        return (item.options = this.removeOption(item.options, item.value, removeOption, removeOptionParent)).length
       }
       return item
     })
@@ -225,7 +226,7 @@ class MultiLevelSelect extends React.Component {
               name={item.label}
               onChange={(event) => {
                 let self = this
-                findParentStructure(values, { value: item.value, label: item.label }, item.value, options, [], function (data) {
+                findParentStructure(values, { value: item.value, label: item.label }, item.value, options, [], parent.value, (data) => {
                   self.selectOption(data, parent.value, event)
                 })
               }}
