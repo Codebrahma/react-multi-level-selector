@@ -37,7 +37,7 @@ const findHierarchyAddSelectedOption = (currentPath, options, selectedOption) =>
       option = temp;
     }
   }
-  return [option]
+  return option
 }
 
 //add the selected option along with the previous selected options
@@ -58,7 +58,7 @@ const addSelectedOption = (optionsSelectedData, currentPath, selectedOption) => 
       options = temp;
     }
   }
-  return [options];
+  return options;
 }
 
 

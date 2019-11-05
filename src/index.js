@@ -26,8 +26,8 @@ class MultiLevelSelect extends React.Component {
     const { value, checked } = event.target;
     if (checked) {
 
-      const parentValue = data[0].value;
-      const updatedOption = data[0];
+      const parentValue = data.value;
+      const updatedOption = data;
       const findIndex = values.findIndex(x => x.value === parentValue);
 
       if (findIndex === -1) {
