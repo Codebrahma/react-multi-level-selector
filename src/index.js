@@ -131,7 +131,7 @@ class MultiLevelSelect extends React.Component {
             <div>
               {counter === 0
                 ? (<span className={`options-group ${this.getClassName('options-group')}`}>{` ${item.label}`}</span>)
-                : (data.length > 1 ? `, ${item.label}` : ` ${item.label}`)}
+                : ((data.length > 1 && index !== 0) ? `, ${item.label}` : ` ${item.label}`)}
               <span className={`options-group ${this.getClassName('options-group')}`}>{' ->'}</span>
               &nbsp;
             </div>
@@ -140,7 +140,7 @@ class MultiLevelSelect extends React.Component {
         {!item.options
           && (
             <div className={`options-value ${this.getClassName('options-value')}`}>
-              {(data.length >= 2 && index !== 0) ? `, ${item.label}` : item.label}
+              {(data.length > 1 && index !== 0) ? `, ${item.label}` : item.label}
               &nbsp;
             </div>
           )

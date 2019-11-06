@@ -21,9 +21,24 @@ import MultiLevelSelect from 'react-multi-level-selector';
 const options = [
   { value: 'fruits', label: 'Fruits',
     options: [
-       { value: 'apple', label: 'Apple' },
-       { value: 'blackberry', label: 'Blackberry' },
-       { value: 'cherry', label: 'Cherry' },
+      { value: 'citrus', label: 'Citrus',
+        options: [
+          { value: 'orange', label: 'Orange' },
+          { value: 'grapefruits', label: 'GrapeFruits'},
+        ],
+      },
+      { value: 'tropical', label: 'Tropical',
+        options: [
+          { value: 'mango', label: 'Mango' },
+          { value: 'papaya', label: 'Papaya' },
+        ],
+      },
+      { value: 'berries', label: 'Berries',
+        options: [
+          { value: 'strawberry', label: 'Strawberry' },
+          { value: 'raspberries', label: 'Raspberries' },
+        ],
+      },
     ],
   },
   { value: 'city', label: 'City',
