@@ -141,6 +141,80 @@
       margin: 0;
       padding: 0;
 
+      .options-sub-menu {
+        display: flex;
+        align-items: center;
+        padding: 10px 25px 10px 15px;
+        cursor: pointer;
+
+        &:hover {
+          background-color: $greyOne;
+        }
+
+        input {
+          position: absolute;
+          opacity: 0;
+          cursor: pointer;
+          height: 0;
+          width: 0;
+
+          &:checked~.checkbox {
+            .checkmark {
+              background-color: $blue;
+            }
+          }
+
+          &:checked~.checkbox {
+            .checkmark:after {
+              display: block;
+            }
+          }
+        }
+
+        .checkbox {
+          position: relative;
+          height: 14px;
+          width: 14px;
+          margin-right: 10px;
+
+          .checkmark {
+            position: absolute;
+            height: 14px;
+            width: 14px;
+            background-color: $white;
+            border-radius: 3px;
+            border: 1px solid $greyFour;
+
+            &:after {
+              content: "";
+              position: absolute;
+              display: none;
+              left: 5px;
+              top: 1.5px;
+              width: 2px;
+              height: 7px;
+              border: solid $white;
+              border-width: 0 2px 2px 0;
+              -webkit-transform: rotate(45deg);
+              -ms-transform: rotate(45deg);
+              transform: rotate(45deg);
+            }
+          }
+        }
+
+        &:hover input~.checkbox {
+          .checkmark {
+            background-color: $white;
+          }
+        }
+
+        &:hover input:checked~.checkbox {
+          .checkmark {
+            background-color: $blue;
+          }
+        }
+      }
+
       .options-container {
         display: flex;
         align-items: center;
@@ -172,87 +246,13 @@
             color: $placeholder;
             text-transform: uppercase;
           }
-
-          .options-sub-menu {
-            display: flex;
-            align-items: center;
-            padding: 10px 25px 10px 15px;
-            cursor: pointer;
-
-            &:hover {
-              background-color: $greyOne;
-            }
-
-            input {
-              position: absolute;
-              opacity: 0;
-              cursor: pointer;
-              height: 0;
-              width: 0;
-
-              &:checked~.checkbox {
-                .checkmark {
-                  background-color: $blue;
-                }
-              }
-
-              &:checked~.checkbox {
-                .checkmark:after {
-                  display: block;
-                }
-              }
-            }
-
-            .checkbox {
-              position: relative;
-              height: 14px;
-              width: 14px;
-              margin-right: 10px;
-
-              .checkmark {
-                position: absolute;
-                height: 14px;
-                width: 14px;
-                background-color: $white;
-                border-radius: 3px;
-                border: 1px solid $greyFour;
-
-                &:after {
-                  content: "";
-                  position: absolute;
-                  display: none;
-                  left: 5px;
-                  top: 1.5px;
-                  width: 2px;
-                  height: 7px;
-                  border: solid $white;
-                  border-width: 0 2px 2px 0;
-                  -webkit-transform: rotate(45deg);
-                  -ms-transform: rotate(45deg);
-                  transform: rotate(45deg);
-                }
-              }
-            }
-
-            &:hover input~.checkbox {
-              .checkmark {
-                background-color: $white;
-              }
-            }
-
-            &:hover input:checked~.checkbox {
-              .checkmark {
-                background-color: $blue;
-              }
-            }
-          }
         }
 
         &:hover {
           background-color: $greyOne;
           cursor: pointer;
 
-          .options-sub-menu-container {
+          &>.options-sub-menu-container {
             display: block;
           }
 

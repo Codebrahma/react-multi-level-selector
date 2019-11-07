@@ -51,5 +51,13 @@
     "sass-loader": "^8.0.0",
     "style-loader": "^1.0.0",
     "webpack-cli": "^3.3.6"
-  }
+  },
+  "keywords": [
+    "react",
+    "multiselect",
+    "multilevel",
+    "select",
+    "dropdown",
+    "react-component"
+  ]
 }

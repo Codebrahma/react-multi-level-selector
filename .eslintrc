@@ -12,7 +12,10 @@
     "jsx-a11y/click-events-have-key-events": 0,
     "jsx-a11y/no-static-element-interactions": 0,
     "jsx-a11y/no-autofocus": "off",
-    "no-underscore-dangle": 0
+    "no-underscore-dangle": 0,
+    "no-return-assign": "off",
+    "no-param-reassign": "off",
+    "no-use-before-define": "off"
   },
   "parserOptions": {
     "ecmaFeatures": {

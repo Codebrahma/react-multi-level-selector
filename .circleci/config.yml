@@ -15,8 +15,8 @@ jobs:
 
       - restore_cache:
           keys:
-          - v1-dependencies-{{ checksum "package.json" }}
-          - v1-dependencies-
+            - v1-dependencies-{{ checksum "package.json" }}
+            - v1-dependencies-
 
       - run: npm install
 
@@ -26,12 +26,9 @@ jobs:
           key: v1-dependencies-{{ checksum "package.json" }}
 
       - run: npm run lint
-      - run: npm run test
-      - run: ./node_modules/.bin/codecov
 
 workflows:
   version: 2
   build-and-release:
     jobs:
       - build
-
