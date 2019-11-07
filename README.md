@@ -6,8 +6,6 @@
 
 ## Installation
 
-Install it from npm and import it in your root component
-
 ```bash
 npm install --save react-multi-level-selector
 ```
