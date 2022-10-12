@@ -3,6 +3,7 @@
   "version": "1.0.0",
   "description": "Multi level dropdown options selector for application",
   "main": "build/index.js",
+  "types": "build/index.d.ts",
   "license": "MIT",
   "peerDependencies": {
     "react": "^16.8.6"
@@ -18,7 +19,6 @@
     "prop-types": "^15.7.2",
     "react": "^16.8.6",
     "react-dom": "^16.9.0",
-    "react-onclickoutside": "^6.9.0",
     "webpack": "^4.39.1"
   },
   "scripts": {

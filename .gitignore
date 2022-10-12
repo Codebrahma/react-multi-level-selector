@@ -1,5 +1,5 @@
 node_modules/
 build/
 coverage/
-
+index.d.ts
 package-lock.json

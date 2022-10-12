@@ -1,6 +1,5 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import listensToClickOutside from 'react-onclickoutside';
 import suffixedClassName from './suffixedClassName';
 import findParentStructure from './helper';
 import './style.scss';
@@ -13,7 +12,6 @@ class MultiLevelSelect extends React.Component {
       isMenuOpen: false,
     };
   }
-
   getClassName = (suffix) => {
     const { className } = this.props;
 
@@ -31,7 +29,7 @@ class MultiLevelSelect extends React.Component {
     this.setState({ values: values.filter(data => data.value !== value) }, this.onOptionsChange);
   }
 
-  handleClickOutside = () => {
+  handleClickOutside = (e) => {
     const { isMenuOpen } = this.state;
 
     return isMenuOpen && this.setState({ isMenuOpen: false });
@@ -156,10 +154,12 @@ class MultiLevelSelect extends React.Component {
   renderCaretButton = () => {
     const { isMenuOpen } = this.state;
 
-    return (
+    return (<>
+      <span className='divider'/>
       <div className="multi-selector-button" onClick={this.toggleMenu}>
-        <div className={isMenuOpen ? `arrow-up ${this.getClassName('arrow-up')}` : `arrow-down ${this.getClassName('arrow-down')}`} />
+        <svg height="20" width="20" viewBox="0 0 20 20" aria-hidden="true" focusable="false" className={isMenuOpen ? "arrow-active" : "arrow"}><path d="M4.516 7.548c0.436-0.446 1.043-0.481 1.576 0l3.908 3.747 3.908-3.747c0.533-0.481 1.141-0.446 1.574 0 0.436 0.445 0.408 1.197 0 1.615-0.406 0.418-4.695 4.502-4.695 4.502-0.217 0.223-0.502 0.335-0.787 0.335s-0.57-0.112-0.789-0.335c0 0-4.287-4.084-4.695-4.502s-0.436-1.17 0-1.615z"></path></svg>
       </div>
+      </>
     );
   }
 
@@ -238,18 +238,26 @@ class MultiLevelSelect extends React.Component {
   render() {
     const { values, isMenuOpen } = this.state;
     const { options } = this.props;
+    const myRef = React.createRef();
+    const handleClickOutsideClose = (e) => {
+      const { isMenuOpen } = this.state;
+      if(myRef.current && isMenuOpen && !myRef.current.contains(e.target)) {
+        return this.setState({ isMenuOpen: false });
+      }
+    }
+    document.addEventListener('mousedown', handleClickOutsideClose);
     return (
       <div className="multi-level-selector-container">
-        <div
+        <div ref={myRef}
           className={`multi-selector-container ${this.getClassName('multi-selector-container')} ${isMenuOpen ? `active ${this.getClassName('active')}` : 'inactive'}`}
         >
-          <div className="multi-selector" onClick={this.toggleMenu}>
+          <div ref={myRef} className="multi-selector" onClick={this.toggleMenu}>
             {!values.length && this.renderPlaceholder()}
             {this.renderOptionsSelected(values)}
           </div>
           {this.renderCaretButton()}
         </div>
-        <div className={`multi-level-options-container ${this.getClassName('multi-level-options-container')} ${isMenuOpen ? `menu-open ${this.getClassName('menu-open')}` : `menu-close ${this.getClassName('menu-close')}`}`}>
+        <div ref={myRef}className={`multi-level-options-container ${this.getClassName('multi-level-options-container')} ${isMenuOpen ? `menu-open ${this.getClassName('menu-open')}` : `menu-close ${this.getClassName('menu-close')}`}`}>
           <div className="options-main-menu">
             {this.renderOptionsMenu(options)}
           </div>
@@ -280,4 +288,4 @@ MultiLevelSelect.defaultProps = {
   className: '',
 };
 
-export default listensToClickOutside(MultiLevelSelect);
+export default MultiLevelSelect;
