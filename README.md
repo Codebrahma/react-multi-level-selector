@@ -1,4 +1,4 @@
-# react-multi-level-selector
+# react-select-multi-level
 
 :bell: React component for Multi level options Selector for your application.
 
