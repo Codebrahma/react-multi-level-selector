@@ -43,7 +43,7 @@ const options = [
     options: [
       { value: 'dublin', label: 'Dublin' },
       { value: 'new york', label: 'New York' },
-      { value: 'san fransis', label: 'San Fransis' },
+      { value: 'san fransisco', label: 'San Fransisco' },
     ],
   },
 
