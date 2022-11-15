@@ -93,7 +93,9 @@
     .multi-selector-button {
       display: flex;
       align-items: center;
-      margin: 8px;
+      margin-top: 8px;
+      margin-bottom: 8px;
+      margin-right: 2px;
       min-width: 25px;
       height: 25px;
 
@@ -122,7 +124,9 @@
       }
     }
     .divider{
-        margin: 10px;
+        margin-top: 9px;
+        margin-bottom: 9px;
+        margin-right: 8px;
         border-right: 1px solid $greyFour;
         border-width: 50%
       }
