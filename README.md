@@ -7,14 +7,14 @@
 ## Installation
 
 ```bash
-npm install --save react-multi-level-selector
+npm install --save react-select-multi-level
 ```
 
 ## Usage
 
 ```Javascript
 import React from 'react';
-import MultiLevelSelect from 'react-multi-level-selector';
+import MultiLevelSelect from 'react-select-multi-level';
 
 const options = [
   { value: 'fruits', label: 'Fruits',
