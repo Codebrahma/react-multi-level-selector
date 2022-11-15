@@ -1,4 +1,4 @@
-# react-multi-level-selector
+# react-select-multi-level
 
 :bell: React component for Multi level options Selector for your application.
 
@@ -43,7 +43,7 @@ const options = [
     options: [
       { value: 'dublin', label: 'Dublin' },
       { value: 'new york', label: 'New York' },
-      { value: 'san fransis', label: 'San Fransis' },
+      { value: 'san fransisco', label: 'San Fransisco' },
     ],
   },
 
