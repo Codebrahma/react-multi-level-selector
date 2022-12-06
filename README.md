@@ -1,4 +1,4 @@
-# react-multi-level-selector
+# react-select-multi-level
 
 :bell: React component for Multi level options Selector for your application.
 
@@ -7,14 +7,14 @@
 ## Installation
 
 ```bash
-npm install --save react-multi-level-selector
+npm install --save react-select-multi-level
 ```
 
 ## Usage
 
 ```Javascript
 import React from 'react';
-import MultiLevelSelect from 'react-multi-level-selector';
+import MultiLevelSelect from 'react-select-multi-level';
 
 const options = [
   { value: 'fruits', label: 'Fruits',
@@ -43,7 +43,7 @@ const options = [
     options: [
       { value: 'dublin', label: 'Dublin' },
       { value: 'new york', label: 'New York' },
-      { value: 'san fransis', label: 'San Fransis' },
+      { value: 'san fransisco', label: 'San Fransisco' },
     ],
   },
 

@@ -1,15 +1,16 @@
 {
-  "name": "react-multi-level-selector",
-  "version": "1.0.0",
+  "name": "react-select-multi-level",
+  "version": "1.0.1",
   "description": "Multi level dropdown options selector for application",
   "main": "build/index.js",
+  "types": "build/index.d.ts",
   "license": "MIT",
   "peerDependencies": {
     "react": "^16.8.6"
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/Codebrahma/react-multi-level-selector"
+    "url": "https://github.com/hortplus-liam/react-multi-level-selector/"
   },
   "dependencies": {
     "babel-eslint": "^10.0.2",
@@ -18,7 +19,6 @@
     "prop-types": "^15.7.2",
     "react": "^16.8.6",
     "react-dom": "^16.9.0",
-    "react-onclickoutside": "^6.9.0",
     "webpack": "^4.39.1"
   },
   "scripts": {
